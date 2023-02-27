@@ -1,0 +1,54 @@
+.addTodoContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+
+  .addTodoTitle {
+    font-size: 1.125rem;
+    font-weight: 400;
+  }
+
+  .todoForm {
+    display: flex;
+    align-items: start;
+    gap: 1em;
+    margin-top: 15px;
+
+    .todoInput {
+      padding: 7px 12px;
+      border-radius: 5px;
+      border: none;
+      background-color: rgba(0, 0, 0, 0.274);
+      color: whitesmoke;
+    }
+
+    .todoInput:focus {
+        background-color: rgba(25, 15, 32, 0.568);
+        border-bottom: black solid 1px;
+        outline: none;
+    }
+
+    .errorMessage {
+        font-size: .75rem;
+        color: rgb(197, 141, 34);
+        visibility: hidden;
+    }
+
+    .errorMessage--show {
+        visibility: visible;
+    }
+
+    .error {
+      border: solid 1px rgb(197, 141, 34);
+    }
+
+    .addBtn {
+      padding: 7px 15px;
+      border: none;
+      border-radius: 5px;
+      background-color: rgba(42, 24, 54, 0.705);
+      color: rgb(212, 115, 36);
+    }
+  }
+}

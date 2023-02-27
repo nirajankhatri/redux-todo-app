@@ -5,5 +5,22 @@
 }
 
 .App {
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  height: 100vh;
+  color: white;
+}
+
+main {
+  min-width: 50%;
+  background-color: rgb(62, 49, 73);
+  margin-top: 10vh;
+  display: flex;
+  flex-direction: column;
+  padding: 4vw;
+  padding-top: 2vw;
+  align-items: center;
+  gap: 1em;
+  min-height: 80%;
 }

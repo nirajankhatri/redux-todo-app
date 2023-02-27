@@ -1,0 +1,34 @@
+.listContainer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  .list {
+    list-style: none;
+    min-width: 50%;
+    height: 300px;
+    overflow: scroll;
+    .listItem {
+      width: 100%;
+      text-align: start;
+      display: flex;
+      justify-content: space-between;
+      padding: 7px 15px;
+      background-color: rgba(0, 0, 0, 0.144);
+
+      .complete {
+        text-decoration: line-through;
+      }
+
+      .itemBtns {
+        display: flex;
+        align-items: baseline;
+
+        .itemCheck {
+          margin-right: 10px;
+          border: none;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
