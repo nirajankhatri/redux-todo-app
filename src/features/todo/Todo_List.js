@@ -19,17 +19,18 @@ import {
 } from "../../app/redux/todoActions";
 
 import "../../style/components/_todo_List.scss";
+import { useNavigate } from "react-router-dom";
 
-const Todo_List = ({ setShowModal }) => {
-  const todoArray = useSelector((state) => state.todo);
+const Todo_List = () => {
+  const todoArray = useSelector((state) => state.todos);
 
-  const [isEditing, setIsEditing] = useState(null);
   const [editingTask, setEditingTask] = useState(null);
 
   const [totalTasks, setTotalTasks] = useState(0);
   const [completedTasks, setCompletedTasks] = useState(0);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const deleteTodoHandler = (id) => {
     dispatch(removeTodo(id));
@@ -50,20 +51,18 @@ const Todo_List = ({ setShowModal }) => {
     dispatch(undo(id));
   };
 
-  const editHandler = (id, task) => {
-    setIsEditing(id);
-    setEditingTask(task);
-  };
+  // const editHandler = (id, task) => {
+  //   setIsEditing(id);
+  //   setEditingTask(task);
+  // };
 
-  const editTaskHandler = (task) => {
-    setEditingTask(task);
-  };
+  // const editTaskHandler = (task) => {
+  //   setEditingTask(task);
+  // };
 
-  const editSaveHandler = (id, task) => {
-    dispatch(edit(id, task));
-    setIsEditing(null);
-    setEditingTask(null);
-  };
+  // const editSaveHandler = (id, task) => {
+  //   dispatch(edit(id, task));
+  // };
 
   useEffect(() => {
     setTotalTasks(todoArray.length);
@@ -72,16 +71,15 @@ const Todo_List = ({ setShowModal }) => {
 
   const todoList = todoArray.map((todo) => (
     <div className="taskCard" key={todo.id}>
-      <textarea
-        type="text"
-        value={isEditing == todo.id ? editingTask : todo.present.task}
-        className={`listItem__task ${todo.present.complete ? "complete" : ""} ${
-          isEditing == todo.id ? "editable" : ""
-        }`}
+      <h4 className={`task__title ${todo.present.complete ? "complete" : ""}`}>
+        {todo.present.title}
+      </h4>
+      <p
+        className={`task__content ${todo.present.complete ? "complete" : ""}`}
         id={todo.id}
-        onChange={(e) => editTaskHandler(e.target.value)}
-        readOnly={isEditing !== todo.id ? true : false}
-      />
+      >
+        {todo.present.content}
+      </p>
 
       <div className="itemBtns">
         <div className="btnContainer checkboxContainer">
@@ -121,21 +119,12 @@ const Todo_List = ({ setShowModal }) => {
             <FontAwesomeIcon icon={faRotateLeft} size="2xl" />
           </button>
 
-          {isEditing == todo.id ? (
-            <button
-              className="btn"
-              onClick={() => editSaveHandler(todo.id, editingTask)}
-            >
-              Save
-            </button>
-          ) : (
-            <button
-              className="btn"
-              onClick={() => editHandler(todo.id, todo.present.task)}
-            >
-              <FontAwesomeIcon icon={faPenToSquare} size="2xl" />
-            </button>
-          )}
+          <button
+            className="btn"
+            onClick={() => navigate(`/todo/edit/${todo.id}`)}
+          >
+            <FontAwesomeIcon icon={faPenToSquare} size="2xl" />
+          </button>
         </div>
       </div>
     </div>
@@ -152,7 +141,7 @@ const Todo_List = ({ setShowModal }) => {
             Completed Tasks: <span>{completedTasks}</span>
           </p>
         </div>
-        <button className="showModalBtn" onClick={() => setShowModal(true)}>
+        <button className="showModalBtn" onClick={() => navigate(`/todo/add`)}>
           Add Todo
         </button>
       </div>

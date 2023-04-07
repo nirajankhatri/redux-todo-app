@@ -9,13 +9,15 @@ import {
 } from "./todoConstants";
 import uuid from "react-uuid";
 
-export const addTodo = (task) => {
+export const addTodo = (title, content) => {
   return {
     type: ADD_TODO,
     payload: {
       id: uuid(),
-      task: task,
+      title: title,
+      content: content,
       complete: false,
+      createdDate: new Date().toISOString(),
     },
   };
 };
@@ -58,13 +60,15 @@ export const undo = (id) => {
   };
 };
 
-export const edit = (id, task) => {
+export const edit = (id, title, content) => {
   console.log(id);
   return {
     type: EDIT_TASK,
     payload: {
       id: id,
-      task: task,
+      title: title,
+      content: content,
+      updatedDate: new Date().toISOString(),
     },
   };
 };

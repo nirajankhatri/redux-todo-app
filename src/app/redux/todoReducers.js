@@ -14,15 +14,16 @@ const todoReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_TODO:
       return [
-        ...state,
         {
           id: action.payload.id,
           past: [],
           present: {
-            task: action.payload.task,
+            title: action.payload.title,
+            content: action.payload.content,
             complete: action.payload.complete,
           },
           future: [],
+          createdDate: action.payload.createdDate,
         },
       ];
 
@@ -108,13 +109,15 @@ const todoReducer = (state = initialState, action) => {
         if (todo.id === action.payload.id) {
           console.log("edit");
           return {
-            id: todo.id,
+            ...todo,
             past: [...todo.past, todo.present],
             present: {
               ...todo.present,
-              task: action.payload.task,
+              title: action.payload.title,
+              content: action.payload.content,
             },
             future: [],
+            updatedDate: action.payload.updatedDate,
           };
         } else {
           return todo;

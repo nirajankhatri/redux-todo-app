@@ -12,19 +12,17 @@
   align-items: start;
   color: white; */
   min-height: 100vh;
-  background: #a770ef; 
+  background: #bdc3c7; /* fallback for old browsers */
   background: -webkit-linear-gradient(
-    to top,
-    #fdb99b,
-    #cf8bf3,
-    #a770ef
-  );
+    to bottom,
+    #2c3e50,
+    #bdc3c7
+  ); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(
-    to top,
-    #fdb99b,
-    #cf8bf3,
-    #a770ef
-  );
+    to bottom,
+    #2c3e50,
+    #bdc3c7
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 main {
@@ -39,4 +37,3 @@ main {
   gap: 1em;
   min-height: 80%;
 }
-

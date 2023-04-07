@@ -8,7 +8,7 @@
   z-index: 1000;
 }
 
-.addTodoContainer {
+.editTodoContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -25,17 +25,16 @@
   text-align: center;
   border-radius: 10px;
 
-  .addTodoTitle {
+  .editTodoTitle {
     font-size: 1.125rem;
     font-weight: 400;
   }
 
   .todoForm {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    align-items: start;
     gap: 1em;
+    margin-top: 15px;
 
     .todoInput {
       padding: 7px 12px;
@@ -43,10 +42,6 @@
       border: none;
       background-color: rgb(255, 255, 255);
       color: rgb(0, 0, 0);
-      resize: none;
-      width: 300px;
-      height: 50px;
-      text-align: center;
     }
 
     .todoInput:focus {
@@ -69,10 +64,8 @@
     }
 
     .addBtn {
-      width: 300px;
       padding: 7px 15px;
       border: none;
-      letter-spacing: 0.5em;
       border-radius: 5px;
       background-color: rgba(146, 119, 163);
       color: rgb(255, 255, 255);
@@ -81,7 +74,6 @@
       cursor: pointer;
     }
   }
-
   .close-modal-btn {
     background-color: transparent;
     border: none;
