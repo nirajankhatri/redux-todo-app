@@ -1,15 +1,30 @@
-* {
+*,
+::before,
+::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
 .App {
-  display: flex;
+  /* display: flex;
   justify-content: center;
   align-items: start;
-  height: 100vh;
-  color: white;
+  color: white; */
+  min-height: 100vh;
+  background: #a770ef; 
+  background: -webkit-linear-gradient(
+    to top,
+    #fdb99b,
+    #cf8bf3,
+    #a770ef
+  );
+  background: linear-gradient(
+    to top,
+    #fdb99b,
+    #cf8bf3,
+    #a770ef
+  );
 }
 
 main {
@@ -24,3 +39,4 @@ main {
   gap: 1em;
   min-height: 80%;
 }
+

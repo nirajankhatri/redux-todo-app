@@ -1,8 +1,29 @@
+.portal-overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(95, 95, 95, 0.801);
+  z-index: 1000;
+}
+
 .addTodoContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  width: 50%;
+  height: 30%;
+  justify-content: center;
+  position: fixed;
+  background: #fdb99b;
+  z-index: 1000;
+  padding: 20px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  border-radius: 10px;
 
   .addTodoTitle {
     font-size: 1.125rem;
@@ -19,36 +40,54 @@
       padding: 7px 12px;
       border-radius: 5px;
       border: none;
-      background-color: rgba(0, 0, 0, 0.274);
-      color: whitesmoke;
+      background-color: rgb(255, 255, 255);
+      color: rgb(0, 0, 0);
     }
 
     .todoInput:focus {
-        background-color: rgba(25, 15, 32, 0.568);
-        border-bottom: black solid 1px;
-        outline: none;
+      background-color: rgb(218, 218, 218);
+      outline: none;
     }
 
     .errorMessage {
-        font-size: .75rem;
-        color: rgb(197, 141, 34);
-        visibility: hidden;
+      font-size: 0.75rem;
+      color: rgb(197, 59, 34);
+      visibility: hidden;
     }
 
     .errorMessage--show {
-        visibility: visible;
+      visibility: visible;
     }
 
     .error {
-      border: solid 1px rgb(197, 141, 34);
+      border: solid 1px rgb(197, 59, 34);
     }
 
     .addBtn {
       padding: 7px 15px;
       border: none;
       border-radius: 5px;
-      background-color: rgba(42, 24, 54, 0.705);
-      color: rgb(212, 115, 36);
+      background-color: rgba(146, 119, 163);
+      color: rgb(255, 255, 255);
+      text-transform: uppercase;
+      font-weight: 800;
+      cursor: pointer;
+    }
+  }
+  .close-modal-btn {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+
+    svg {
+      color: rgb(0, 0, 0);
+    }
+    svg:hover {
+      color: rgb(168, 51, 51);
     }
   }
 }

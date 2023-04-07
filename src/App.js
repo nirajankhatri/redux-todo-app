@@ -1,15 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
-import Todo_Add from "./features/todo/Add_Todo";
+import AddTodoModal from "./features/todo/AddTodoModal";
 import Todo_List from "./features/todo/Todo_List";
 
 function App() {
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <div className="App">
-      <main>
-        <Todo_Add />
-        <Todo_List />
-      </main>
+      {showModal && <AddTodoModal setShowModal={setShowModal} />}
+      <Todo_List setShowModal={setShowModal} />
     </div>
   );
 }

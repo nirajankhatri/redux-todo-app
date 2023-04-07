@@ -1,15 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faPenToSquare,
+  faRotateLeft,
+  faRotateRight,
+  faTrashAlt,
+} from "@fortawesome/free-solid-svg-icons";
 
-import { removeTodo, completeTodo, undoCompleteTodo } from "./todoSlicer";
+import {
+  removeTodo,
+  completeTodo,
+  undoCompleteTodo,
+  redo,
+  undo,
+  edit,
+} from "../../app/redux/todoActions";
 
 import "../../style/components/_todo_List.scss";
 
-const Todo_List = () => {
-  const todos = useSelector((state) => state.todo.todoList);
+const Todo_List = ({ setShowModal }) => {
+  const todoArray = useSelector((state) => state.todo);
+
+  const [isEditing, setIsEditing] = useState(null);
+  const [editingTask, setEditingTask] = useState(null);
+
+  const [totalTasks, setTotalTasks] = useState(0);
+  const [completedTasks, setCompletedTasks] = useState(0);
 
   const dispatch = useDispatch();
 
@@ -24,30 +42,121 @@ const Todo_List = () => {
       : dispatch(undoCompleteTodo(id));
   };
 
-  const todoList = todos.map((todo) => (
-    <li className="listItem" key={todo.id}>
-      <span className="listItem__task" id={todo.id}>
-        {todo.task}
-      </span>
+  const redoHandler = (id) => {
+    dispatch(redo(id));
+  };
+
+  const undoHandler = (id) => {
+    dispatch(undo(id));
+  };
+
+  const editHandler = (id, task) => {
+    setIsEditing(id);
+    setEditingTask(task);
+  };
+
+  const editTaskHandler = (task) => {
+    setEditingTask(task);
+  };
+
+  const editSaveHandler = (id, task) => {
+    dispatch(edit(id, task));
+    setIsEditing(null);
+    setEditingTask(null);
+  };
+
+  useEffect(() => {
+    setTotalTasks(todoArray.length);
+    setCompletedTasks(todoArray.filter((todo) => todo.present.complete).length);
+  }, [todoArray]);
+
+  const todoList = todoArray.map((todo) => (
+    <div className="taskCard" key={todo.id}>
+      <textarea
+        type="text"
+        value={isEditing == todo.id ? editingTask : todo.present.task}
+        className={`listItem__task ${todo.present.complete ? "complete" : ""} ${
+          isEditing == todo.id ? "editable" : ""
+        }`}
+        id={todo.id}
+        onChange={(e) => editTaskHandler(e.target.value)}
+        readOnly={isEditing !== todo.id ? true : false}
+      />
+
       <div className="itemBtns">
-        <input
-        className="itemCheck"
-          type="checkbox"
-          onClick={(e) => todoCheckboxHandler(e, todo.id)}
-        />
-        <FontAwesomeIcon
-          icon={faTrashAlt}
-          color="gray"
-          cursor="pointer"
-          onClick={() => deleteTodoHandler(todo.id)}
-        />
+        <div className="btnContainer checkboxContainer">
+          <label htmlFor={todo.id}>Complete</label>
+          <input
+            id={todo.id}
+            className="itemCheck"
+            type="checkbox"
+            onChange={(e) => todoCheckboxHandler(e, todo.id)}
+            checked={todo.present.complete ? true : false}
+          />
+        </div>
+        <div className="btnContainer deleteIconContainer">
+          <label htmlFor="DeleteIcon">Delete</label>
+          <FontAwesomeIcon
+            className="DeleteIcon"
+            icon={faTrashAlt}
+            cursor="pointer"
+            size="xl"
+            onClick={() => deleteTodoHandler(todo.id)}
+          />
+        </div>
+        <div className="btnContainer editContainer">
+          <button
+            className="btn"
+            onClick={() => redoHandler(todo.id)}
+            disabled={todo.future.length < 1}
+          >
+            <FontAwesomeIcon icon={faRotateRight} size="2xl" />
+          </button>
+
+          <button
+            className="btn"
+            onClick={() => undoHandler(todo.id)}
+            disabled={todo.past.length < 1}
+          >
+            <FontAwesomeIcon icon={faRotateLeft} size="2xl" />
+          </button>
+
+          {isEditing == todo.id ? (
+            <button
+              className="btn"
+              onClick={() => editSaveHandler(todo.id, editingTask)}
+            >
+              Save
+            </button>
+          ) : (
+            <button
+              className="btn"
+              onClick={() => editHandler(todo.id, todo.present.task)}
+            >
+              <FontAwesomeIcon icon={faPenToSquare} size="2xl" />
+            </button>
+          )}
+        </div>
       </div>
-    </li>
+    </div>
   ));
 
   return (
     <div className="listContainer">
-      <ul className="list">{todoList}</ul>
+      <div className="header">
+        <div className="taskInfoContainer">
+          <p>
+            Total Tasks: <span>{totalTasks}</span>
+          </p>
+          <p>
+            Completed Tasks: <span>{completedTasks}</span>
+          </p>
+        </div>
+        <button className="showModalBtn" onClick={() => setShowModal(true)}>
+          Add Todo
+        </button>
+      </div>
+      <div className="taskCards">{todoList}</div>
     </div>
   );
 };
