@@ -8,6 +8,7 @@ import {
   EDIT_TASK,
 } from "./todoConstants";
 import uuid from "react-uuid";
+import formatISO from "date-fns/formatISO";
 
 export const addTodo = (title, content) => {
   return {
@@ -17,7 +18,8 @@ export const addTodo = (title, content) => {
       title: title,
       content: content,
       complete: false,
-      createdDate: new Date().toISOString(),
+      createdDate: formatISO(new Date(), { representation: 'date' }),
+
     },
   };
 };
@@ -68,7 +70,7 @@ export const edit = (id, title, content) => {
       id: id,
       title: title,
       content: content,
-      updatedDate: new Date().toISOString(),
+      updatedDate: formatISO(new Date(), { representation: 'date' }),
     },
   };
 };

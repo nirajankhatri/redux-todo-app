@@ -14,6 +14,7 @@ const todoReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_TODO:
       return [
+        ...state,
         {
           id: action.payload.id,
           past: [],
@@ -24,6 +25,7 @@ const todoReducer = (state = initialState, action) => {
           },
           future: [],
           createdDate: action.payload.createdDate,
+          updatedDate: "",
         },
       ];
 
@@ -33,7 +35,7 @@ const todoReducer = (state = initialState, action) => {
     case COMPLETE_TODO:
       console.log("com", action.payload);
       return state.map((todo) => {
-        if (todo.id == action.payload) {
+        if (todo.id === action.payload) {
           console.log(action.payload);
           return {
             id: todo.id,
@@ -43,6 +45,8 @@ const todoReducer = (state = initialState, action) => {
               complete: true,
             },
             future: [],
+            createdDate: todo.createdDate,
+            updatedDate: todo.updatedDate,
           };
         } else {
           return todo;
@@ -61,6 +65,8 @@ const todoReducer = (state = initialState, action) => {
               complete: false,
             },
             future: [],
+            createdDate: todo.createdDate,
+            updatedDate: todo.updatedDate,
           };
         } else {
           return todo;
@@ -79,6 +85,8 @@ const todoReducer = (state = initialState, action) => {
             past: newPast,
             present: previous,
             future: [todo.present, ...todo.future],
+            createdDate: todo.createdDate,
+            updatedDate: todo.updatedDate,
           };
         } else {
           return todo;
@@ -97,6 +105,8 @@ const todoReducer = (state = initialState, action) => {
             past: [...todo.past, todo.present],
             present: next,
             future: newFuture,
+            createdDate: todo.createdDate,
+            updatedDate: todo.updatedDate,
           };
         } else {
           return todo;
@@ -117,6 +127,7 @@ const todoReducer = (state = initialState, action) => {
               content: action.payload.content,
             },
             future: [],
+            createdDate: todo.createdDate,
             updatedDate: action.payload.updatedDate,
           };
         } else {

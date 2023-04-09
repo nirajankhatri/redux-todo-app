@@ -15,19 +15,19 @@ import {
   undoCompleteTodo,
   redo,
   undo,
-  edit,
 } from "../../app/redux/todoActions";
 
 import "../../style/components/_todo_List.scss";
 import { useNavigate } from "react-router-dom";
 
+
 const Todo_List = () => {
   const todoArray = useSelector((state) => state.todos);
 
-  const [editingTask, setEditingTask] = useState(null);
 
   const [totalTasks, setTotalTasks] = useState(0);
   const [completedTasks, setCompletedTasks] = useState(0);
+  const [filter, setFilter] = useState(null);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -71,15 +71,21 @@ const Todo_List = () => {
 
   const todoList = todoArray.map((todo) => (
     <div className="taskCard" key={todo.id}>
-      <h4 className={`task__title ${todo.present.complete ? "complete" : ""}`}>
-        {todo.present.title}
-      </h4>
-      <p
-        className={`task__content ${todo.present.complete ? "complete" : ""}`}
-        id={todo.id}
-      >
-        {todo.present.content}
-      </p>
+      <div className="cardInfoContainer">
+        <h4 className={`task__title ${todo.present.complete ? "complete" : ""}`}>
+          {todo.present.title}
+        </h4>
+        <textarea
+          className={`task__content ${todo.present.complete ? "complete" : ""}`}
+          id={todo.id}
+          value={todo.present.content}
+        />
+
+      </div>
+      <div className="dateContainer">
+        <p>Created: <span>{todo.createdDate}</span></p>
+        {todo.updatedDate !== "" ? <p>Updated: <span>{todo.updatedDate}</span></p> : ""}
+      </div>
 
       <div className="itemBtns">
         <div className="btnContainer checkboxContainer">
@@ -90,16 +96,6 @@ const Todo_List = () => {
             type="checkbox"
             onChange={(e) => todoCheckboxHandler(e, todo.id)}
             checked={todo.present.complete ? true : false}
-          />
-        </div>
-        <div className="btnContainer deleteIconContainer">
-          <label htmlFor="DeleteIcon">Delete</label>
-          <FontAwesomeIcon
-            className="DeleteIcon"
-            icon={faTrashAlt}
-            cursor="pointer"
-            size="xl"
-            onClick={() => deleteTodoHandler(todo.id)}
           />
         </div>
         <div className="btnContainer editContainer">
@@ -125,6 +121,15 @@ const Todo_List = () => {
           >
             <FontAwesomeIcon icon={faPenToSquare} size="2xl" />
           </button>
+
+          <button className="btn" onClick={() => deleteTodoHandler(todo.id)}>
+            <FontAwesomeIcon
+              className="DeleteIcon"
+              icon={faTrashAlt}
+              cursor="pointer"
+              size="2xl"
+            />
+          </button>
         </div>
       </div>
     </div>
@@ -144,6 +149,17 @@ const Todo_List = () => {
         <button className="showModalBtn" onClick={() => navigate(`/todo/add`)}>
           Add Todo
         </button>
+        <select className="filter" name="filter">
+          <option value="">
+            All
+          </option>
+          <option value="1">
+            Completed
+          </option>
+          <option value="0">
+            Uncomplete
+          </option>
+        </select>
       </div>
       <div className="taskCards">{todoList}</div>
     </div>
