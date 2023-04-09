@@ -1,0 +1,20 @@
+.goBackBtn {
+  padding: 10px 15px;
+  border-radius: 0%;
+  cursor: pointer;
+}
+
+.logPage {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: center;
+  gap: 40px;
+  background: rgb(255, 255, 255);
+  width: 100vw;
+  height: 100vh;
+  padding: 20px;
+
+  ul {
+    list-style-position: inside;
+  }
+}

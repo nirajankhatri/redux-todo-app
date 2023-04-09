@@ -9,6 +9,28 @@ import {
 } from "./todoConstants";
 
 const initialState = [];
+/* 
+const initialState = {
+  todoList: [
+    {
+      id: action.payload.id,
+      past:[],
+      future:[],
+      present: { ...action.payload}
+    }
+  ],
+  activityHistory: [
+    ...state.activityHistory, {
+       id: action.payload.id,
+        title: action.payload.title,
+        content: action.payload.content,
+        complete: action.payload.complete,
+        createdDate: action.payload.createdDate,
+    }
+  ]
+};
+
+*/
 
 const todoReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -18,6 +40,7 @@ const todoReducer = (state = initialState, action) => {
         {
           id: action.payload.id,
           past: [],
+
           present: {
             title: action.payload.title,
             content: action.payload.content,
@@ -33,7 +56,6 @@ const todoReducer = (state = initialState, action) => {
       return state.filter((todo) => todo.id !== action.payload);
 
     case COMPLETE_TODO:
-      console.log("com", action.payload);
       return state.map((todo) => {
         if (todo.id === action.payload) {
           console.log(action.payload);
@@ -54,7 +76,6 @@ const todoReducer = (state = initialState, action) => {
       });
 
     case UNDO_COMPLETE_TODO:
-      console.log(action.payload);
       return state.map((todo) => {
         if (todo.id === action.payload) {
           return {
@@ -74,10 +95,8 @@ const todoReducer = (state = initialState, action) => {
       });
 
     case UNDO:
-      console.log("undo1");
       return state.map((todo) => {
         if (todo.id === action.payload) {
-          console.log("undo");
           const previous = todo.past[todo.past.length - 1];
           const newPast = todo.past.slice(0, todo.past.length - 1);
           return {
@@ -94,10 +113,8 @@ const todoReducer = (state = initialState, action) => {
       });
 
     case REDO:
-      console.log("redo1");
       return state.map((todo) => {
         if (todo.id === action.payload) {
-          console.log("redo");
           const next = todo.future[0];
           const newFuture = todo.future.slice(1);
           return {
@@ -113,11 +130,21 @@ const todoReducer = (state = initialState, action) => {
         }
       });
 
+      // const todo = state.todoList.find((each) => each.id === action.payload.id);
+      // return {
+      //   ...state,
+      //   activityHistory: [
+      //     ...state.activityHistory,
+      //     {
+      //       ...todo,
+      //       content: action.payload.content,
+      //       updatedDate: action.payload.updatedDate,
+      //     },
+      //   ],
+      // };
     case EDIT_TASK:
-      console.log("edit1");
       return state.map((todo) => {
         if (todo.id === action.payload.id) {
-          console.log("edit");
           return {
             ...todo,
             past: [...todo.past, todo.present],

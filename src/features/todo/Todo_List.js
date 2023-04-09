@@ -18,16 +18,15 @@ import {
 } from "../../app/redux/todoActions";
 
 import "../../style/components/_todo_List.scss";
-import { useNavigate } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
 
 const Todo_List = () => {
   const todoArray = useSelector((state) => state.todos);
 
-
   const [totalTasks, setTotalTasks] = useState(0);
   const [completedTasks, setCompletedTasks] = useState(0);
-  const [filter, setFilter] = useState(null);
+  const [filter, setFilter] = useState("");
+  const [renderedTodoArray, setRenderedTodoArray] = useState(todoArray);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -64,15 +63,39 @@ const Todo_List = () => {
   //   dispatch(edit(id, task));
   // };
 
+  const filterHandler = (e) => {
+    const value = e.target.value;
+    setFilter(value);
+  };
+
+  useEffect(() => {
+    if (!localStorage.getItem("todoActivities")) {
+      localStorage.setItem("todoActivities", JSON.stringify([]));
+    }
+  }, []);
+
   useEffect(() => {
     setTotalTasks(todoArray.length);
     setCompletedTasks(todoArray.filter((todo) => todo.present.complete).length);
+    setRenderedTodoArray(todoArray);
   }, [todoArray]);
 
-  const todoList = todoArray.map((todo) => (
+  useEffect(() => {
+    if (filter !== "") {
+      setRenderedTodoArray(
+        todoArray.filter((todo) => +todo.present.complete === +filter)
+      );
+    } else {
+      setRenderedTodoArray(todoArray);
+    }
+  }, [filter, todoArray]);
+
+  const todoList = renderedTodoArray.map((todo) => (
     <div className="taskCard" key={todo.id}>
       <div className="cardInfoContainer">
-        <h4 className={`task__title ${todo.present.complete ? "complete" : ""}`}>
+        <h4
+          className={`task__title ${todo.present.complete ? "complete" : ""}`}
+        >
           {todo.present.title}
         </h4>
         <textarea
@@ -80,11 +103,18 @@ const Todo_List = () => {
           id={todo.id}
           value={todo.present.content}
         />
-
       </div>
       <div className="dateContainer">
-        <p>Created: <span>{todo.createdDate}</span></p>
-        {todo.updatedDate !== "" ? <p>Updated: <span>{todo.updatedDate}</span></p> : ""}
+        <p>
+          Created: <span>{todo.createdDate}</span>
+        </p>
+        {todo.updatedDate !== "" ? (
+          <p>
+            Updated: <span>{todo.updatedDate}</span>
+          </p>
+        ) : (
+          ""
+        )}
       </div>
 
       <div className="itemBtns">
@@ -149,17 +179,19 @@ const Todo_List = () => {
         <button className="showModalBtn" onClick={() => navigate(`/todo/add`)}>
           Add Todo
         </button>
-        <select className="filter" name="filter">
-          <option value="">
-            All
-          </option>
-          <option value="1">
-            Completed
-          </option>
-          <option value="0">
-            Uncomplete
-          </option>
+        <select
+          className="filter"
+          name="filter"
+          onChange={filterHandler}
+          value={filter}
+        >
+          <option value="">All</option>
+          <option value={1}>Completed</option>
+          <option value={0}>Incomplete</option>
         </select>
+        <Link to="/log">
+          <button className="logBtn">Log</button>
+        </Link>
       </div>
       <div className="taskCards">{todoList}</div>
     </div>

@@ -19,7 +19,7 @@ const AddTodoModal = () => {
   const todos = useSelector((state) => state.todos);
 
   if (id) {
-    console.log(id);
+    console.log('inside create component',id);
     console.log(todos);
 
     if (!editing) {
@@ -62,6 +62,7 @@ const AddTodoModal = () => {
               value={todoTitle}
               onChange={(e) => setTodoTitle(e.target.value)}
               placeholder="blink blink"
+              disabled={!!id}
             />
           </div>
           <div>
