@@ -1,3 +1,4 @@
+import { config } from "@fortawesome/fontawesome-svg-core";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import uuid from "react-uuid";
@@ -7,29 +8,33 @@ const Log = () => {
   const [log, setLog] = useState([]);
 
   useEffect(() => {
-    setLog(JSON.parse(localStorage.getItem("todoActivities")));
+    const logArray = localStorage.getItem("todoLog");
+    if (logArray?.length > 0) {
+      setLog(JSON.parse(logArray));
+    }
   }, []);
 
   return (
-    <>
-      <Link to="/">
-        <button className="goBackBtn">Go Back</button>
-      </Link>
-      <div className="logPage">
-        {log.map((todo) => {
-          return (
-            <div key={todo.id}>
-              <h3>ID: {todo.id}</h3>
-              <ul>
-                {todo.activity.map((activity) => (
-                  <li key={uuid()}>{activity}</li>
-                ))}
-              </ul>
-            </div>
-          );
-        })}
-      </div>
-    </>
+    <table className="activity-table">
+      <thead>
+        <tr>
+          <th>Activity ID</th>
+          <th>TODO ID</th>
+          <th>Activity</th>
+          <th>Date/Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        {log?.map((item, index) => (
+          <tr key={index}>
+            <td>{item?.activityId}</td>
+            <td>{item?.todoId}</td>
+            <td>{item?.activity}</td>
+            <td>{item?.dateTime}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   );
 };
 

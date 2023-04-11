@@ -1,0 +1,30 @@
+.navbar {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 30px;
+  gap: 2em;
+  border-bottom: 1px solid black;
+  width: 100vw;
+  background-color: #bccef8;
+
+  .linkContainer {
+    a {
+      border: solid 2px #000000;
+      border-radius: 5px;
+      padding: 10px 12px;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: black;
+    }
+
+    a:hover {
+      background-color: #8daffd;
+    }
+
+    a:active,
+    a.active {
+      background-color: #6f9bff;
+    }
+  }
+}

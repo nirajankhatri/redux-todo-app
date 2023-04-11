@@ -9,7 +9,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 40px;
-    place-items: center;
+    // place-items: center;
     margin: 20px 0;
 
     .taskInfoContainer {
@@ -17,20 +17,15 @@
       width: 200px;
       flex-direction: column;
       gap: 10px;
-      color: white;
     }
 
     .filter {
       padding: 10px;
       font-size: 1.125rem;
       border-radius: 5px;
+      border: #bccef8 solid 2px;
       cursor: pointer;
-    }
-
-    .logBtn {
-      @extend .filter;
-      width: 150px;
-      border: none;
+      max-width: 300px;
     }
 
     .showModalBtn {
@@ -38,12 +33,11 @@
       padding: 10px 0;
       cursor: pointer;
       background-color: rgba(250, 235, 215, 0.534);
-      border: none;
+      border: #bccef8 2px solid;
       border-radius: 5px;
       font-size: 1.5rem;
       font-weight: 800;
       letter-spacing: 0.25rem;
-      color: white;
     }
   }
 
@@ -52,22 +46,23 @@
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     place-items: center;
     gap: 40px;
+    margin-top: 20px;
 
     .taskCard {
       width: 300px;
-      height: 300px;
+      height: 310px;
       text-align: start;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       align-items: flex-start;
-      padding: 7px 15px;
+      padding: 15px 15px;
       background: rgba(255, 255, 255, 0.2);
-      border-radius: 16px;
+      border-radius: 5px;
       box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
       backdrop-filter: blur(5px);
       -webkit-backdrop-filter: blur(5px);
-      border: 1px solid rgba(255, 255, 255, 0.3);
+      border: 1px solid #bccef8;
 
       .cardInfoContainer {
         width: 100%;
@@ -83,26 +78,31 @@
           border-radius: 5px;
           border: none;
           width: 100%;
-          background-color: azure;
+          color: #8670ff;
+          text-transform: uppercase;
+          text-align: center;
         }
 
         .task__content {
-          background-color: azure;
+          background-color: transparent;
           padding: 10px;
-          font-size: 1.125rem;
-          letter-spacing: 0.125rem;
+          font-size: 1.130rem;
+          // letter-spacing: 0.125rem;
           border-radius: 5px;
-          border: none;
+          border: #2e3440 1px solid;
           width: 100%;
           height: 70%;
           resize: none;
+        }
+
+        .task__content:focus {
+          outline: none;
         }
       }
 
       .task__content.complete {
         text-decoration: line-through;
-        background-color: rgb(185, 250, 86);
-        border: none;
+        background-color: #bccef8;
       }
 
       .dateContainer {
@@ -146,6 +146,18 @@
         }
         .btn {
           padding: 5px 7px;
+          border: #bccef8 solid 2px;
+          border-radius: 5px;
+          background-color: transparent;
+          cursor: pointer;
+        }
+        .btn:hover {
+          color: #8fa2ff;
+          border: black solid 2px;
+          background-color: transparent;
+        }
+        .btn:disabled {
+          pointer-events: none;
         }
       }
     }

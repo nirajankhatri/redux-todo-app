@@ -7,33 +7,10 @@
 }
 
 .App {
-  /* display: flex;
-  justify-content: center;
-  align-items: start;
-  color: white; */
   min-height: 100vh;
-  background: #bdc3c7; /* fallback for old browsers */
-  background: -webkit-linear-gradient(
-    to bottom,
-    #2c3e50,
-    #bdc3c7
-  ); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(
-    to bottom,
-    #2c3e50,
-    #bdc3c7
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: #faf7f0;
 }
 
 main {
-  min-width: 50%;
-  background-color: rgb(62, 49, 73);
-  margin-top: 10vh;
-  display: flex;
-  flex-direction: column;
-  padding: 4vw;
-  padding-top: 2vw;
-  align-items: center;
-  gap: 1em;
-  min-height: 80%;
+  padding: 0 20px;
 }

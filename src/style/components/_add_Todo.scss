@@ -4,7 +4,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: rgba(95, 95, 95, 0.801);
+  background-color: rgba(95, 95, 95, 0.603);
   z-index: 1000;
 }
 
@@ -12,71 +12,80 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 50%;
-  height: max-content;
-  justify-content: center;
+  height: 300px;
+  justify-content: flex-start;
   position: fixed;
-  background: #ada39f;
+  background: #faf7f0;
   z-index: 1000;
-  padding: 20px;
+  padding: 50px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
   border-radius: 10px;
 
-  .addTodoTitle {
-    font-size: 1.125rem;
-    font-weight: 400;
-  }
-
   .todoForm {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    height: 100%;
     gap: 1em;
 
-    .todoInput {
-      padding: 7px 12px;
-      border-radius: 5px;
-      border: none;
-      background-color: rgb(255, 255, 255);
-      color: rgb(0, 0, 0);
-      resize: none;
-      width: 300px;
-      height: 50px;
-      text-align: center;
-    }
+    div {
+      display: flex;
+      flex-direction: column;
+      gap: 2em;
 
-    .todoInput:focus {
-      background-color: rgb(218, 218, 218);
-      outline: none;
-    }
+      .todoInput {
+        padding: 7px 12px;
+        border-radius: 5px;
+        border: 1px solid black;
+        background-color: rgb(255, 255, 255);
+        color: rgb(0, 0, 0);
+        resize: none;
+        width: 300px;
+        height: 50px;
+        text-align: center;
+      }
 
-    .errorMessage {
-      font-size: 0.75rem;
-      color: rgb(197, 59, 34);
-      visibility: hidden;
-    }
+      .todoInput:focus {
+        background-color: rgb(218, 218, 218);
+        outline: none;
+      }
 
-    .errorMessage--show {
-      visibility: visible;
-    }
+      .todoInput-title {
+        font-size: 1.125rem;
+        font-weight: 700;
+        letter-spacing: 0.25rem;
+        height: fit-content;
+      }
 
-    .error {
-      border: solid 1px rgb(197, 59, 34);
+      .errorMessage {
+        font-size: 0.75rem;
+        color: rgb(197, 59, 34);
+        visibility: hidden;
+      }
+
+      .errorMessage--show {
+        visibility: visible;
+      }
+
+      .error {
+        border: solid 1px rgb(197, 59, 34);
+      }
     }
 
     .addBtn {
       width: 300px;
-      padding: 7px 15px;
+      padding: 12px 15px;
       border: none;
       letter-spacing: 0.5em;
       border-radius: 5px;
-      background-color: rgba(146, 119, 163);
-      color: rgb(255, 255, 255);
+      background-color: #98a8f8;
+      color: black;
       text-transform: uppercase;
+      font-size: large;
       font-weight: 800;
       cursor: pointer;
     }
@@ -95,7 +104,7 @@
       color: rgb(0, 0, 0);
     }
     svg:hover {
-      color: rgb(168, 51, 51);
+      color: rgb(168, 51, 51) !important;
     }
   }
 }

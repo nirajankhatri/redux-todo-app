@@ -21,7 +21,9 @@ import "../../style/components/_todo_List.scss";
 import { Link, useNavigate } from "react-router-dom";
 
 const Todo_List = () => {
-  const todoArray = useSelector((state) => state.todos);
+  const todoArray = useSelector((state) => state.todos.todoList);
+  const historyArray = useSelector((state) => state.todos.activityHistory);
+  console.log("history", historyArray);
 
   const [totalTasks, setTotalTasks] = useState(0);
   const [completedTasks, setCompletedTasks] = useState(0);
@@ -69,16 +71,14 @@ const Todo_List = () => {
   };
 
   useEffect(() => {
-    if (!localStorage.getItem("todoActivities")) {
-      localStorage.setItem("todoActivities", JSON.stringify([]));
+    if (historyArray.length > 0) {
+      localStorage.setItem("todoLog", JSON.stringify(historyArray));
     }
-  }, []);
 
-  useEffect(() => {
     setTotalTasks(todoArray.length);
     setCompletedTasks(todoArray.filter((todo) => todo.present.complete).length);
     setRenderedTodoArray(todoArray);
-  }, [todoArray]);
+  }, [todoArray, historyArray]);
 
   useEffect(() => {
     if (filter !== "") {
@@ -101,8 +101,9 @@ const Todo_List = () => {
         <textarea
           className={`task__content ${todo.present.complete ? "complete" : ""}`}
           id={todo.id}
-          value={todo.present.content}
-        />
+          defaultValue={todo.present.content}
+          readOnly
+        ></textarea>
       </div>
       <div className="dateContainer">
         <p>
@@ -189,9 +190,6 @@ const Todo_List = () => {
           <option value={1}>Completed</option>
           <option value={0}>Incomplete</option>
         </select>
-        <Link to="/log">
-          <button className="logBtn">Log</button>
-        </Link>
       </div>
       <div className="taskCards">{todoList}</div>
     </div>

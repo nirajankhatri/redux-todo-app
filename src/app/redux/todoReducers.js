@@ -1,3 +1,4 @@
+import uuid from "react-uuid";
 import {
   ADD_TODO,
   REMOVE_TODO,
@@ -8,159 +9,307 @@ import {
   EDIT_TASK,
 } from "./todoConstants";
 
-const initialState = [];
-/* 
 const initialState = {
-  todoList: [
-    {
-      id: action.payload.id,
-      past:[],
-      future:[],
-      present: { ...action.payload}
-    }
-  ],
-  activityHistory: [
-    ...state.activityHistory, {
-       id: action.payload.id,
-        title: action.payload.title,
-        content: action.payload.content,
-        complete: action.payload.complete,
-        createdDate: action.payload.createdDate,
-    }
-  ]
+  todoList: [],
+  activityHistory: [],
 };
 
-*/
-
 const todoReducer = (state = initialState, action) => {
+  let activityId = "";
   switch (action.type) {
-    case ADD_TODO:
-      return [
-        ...state,
-        {
-          id: action.payload.id,
-          past: [],
+    case ADD_TODO: {
+      let todoId = uuid();
+      activityId = uuid();
+      return {
+        todoList: [
+          ...state.todoList,
+          {
+            id: todoId,
+            past: [],
 
-          present: {
-            title: action.payload.title,
-            content: action.payload.content,
-            complete: action.payload.complete,
-          },
-          future: [],
-          createdDate: action.payload.createdDate,
-          updatedDate: "",
-        },
-      ];
-
-    case REMOVE_TODO:
-      return state.filter((todo) => todo.id !== action.payload);
-
-    case COMPLETE_TODO:
-      return state.map((todo) => {
-        if (todo.id === action.payload) {
-          console.log(action.payload);
-          return {
-            id: todo.id,
-            past: [...todo.past, todo.present],
             present: {
-              ...todo.present,
-              complete: true,
-            },
-            future: [],
-            createdDate: todo.createdDate,
-            updatedDate: todo.updatedDate,
-          };
-        } else {
-          return todo;
-        }
-      });
-
-    case UNDO_COMPLETE_TODO:
-      return state.map((todo) => {
-        if (todo.id === action.payload) {
-          return {
-            id: todo.id,
-            past: [...todo.past, todo.present],
-            present: {
-              ...todo.present,
+              title: action.payload.title,
+              content: action.payload.content,
               complete: false,
             },
             future: [],
-            createdDate: todo.createdDate,
-            updatedDate: todo.updatedDate,
-          };
-        } else {
-          return todo;
-        }
-      });
+            createdDate: new Date().toLocaleString("en-US", {
+              month: "long",
+              year: "numeric",
+              day: "2-digit",
+              hour12: true,
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+            updatedDate: "",
+          },
+        ],
+        activityHistory: [
+          ...state.activityHistory,
+          {
+            activityId,
+            todoId,
+            activity: "Added",
+            dateTime: new Date().toLocaleString("en-US", {
+              month: "long",
+              year: "numeric",
+              day: "2-digit",
+              hour12: true,
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+          },
+        ],
+      };
+    }
 
-    case UNDO:
-      return state.map((todo) => {
-        if (todo.id === action.payload) {
-          const previous = todo.past[todo.past.length - 1];
-          const newPast = todo.past.slice(0, todo.past.length - 1);
-          return {
-            id: todo.id,
-            past: newPast,
-            present: previous,
-            future: [todo.present, ...todo.future],
-            createdDate: todo.createdDate,
-            updatedDate: todo.updatedDate,
-          };
-        } else {
-          return todo;
-        }
-      });
+    case REMOVE_TODO: {
+      activityId = uuid();
+      return {
+        todoList: state.todoList.filter((todo) => todo.id !== action.payload),
+        activityHistory: [
+          ...state.activityHistory,
 
-    case REDO:
-      return state.map((todo) => {
-        if (todo.id === action.payload) {
-          const next = todo.future[0];
-          const newFuture = todo.future.slice(1);
-          return {
-            id: todo.id,
-            past: [...todo.past, todo.present],
-            present: next,
-            future: newFuture,
-            createdDate: todo.createdDate,
-            updatedDate: todo.updatedDate,
-          };
-        } else {
-          return todo;
-        }
-      });
+          {
+            activityId,
+            todoId: action.payload,
+            activity: "Added",
+            dateTime: new Date().toLocaleString("en-US", {
+              month: "long",
+              year: "numeric",
+              day: "2-digit",
+              hour12: true,
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+          },
+        ],
+      };
+    }
 
-      // const todo = state.todoList.find((each) => each.id === action.payload.id);
-      // return {
-      //   ...state,
-      //   activityHistory: [
-      //     ...state.activityHistory,
-      //     {
-      //       ...todo,
-      //       content: action.payload.content,
-      //       updatedDate: action.payload.updatedDate,
-      //     },
-      //   ],
-      // };
-    case EDIT_TASK:
-      return state.map((todo) => {
-        if (todo.id === action.payload.id) {
-          return {
-            ...todo,
-            past: [...todo.past, todo.present],
-            present: {
-              ...todo.present,
-              title: action.payload.title,
-              content: action.payload.content,
-            },
-            future: [],
-            createdDate: todo.createdDate,
-            updatedDate: action.payload.updatedDate,
-          };
-        } else {
-          return todo;
-        }
-      });
+    case COMPLETE_TODO: {
+      activityId = uuid();
+
+      return {
+        todoList: state.todoList.map((todo) => {
+          if (todo.id === action.payload) {
+            console.log(action.payload);
+            return {
+              id: todo.id,
+              past: [...todo.past, todo.present],
+              present: {
+                ...todo.present,
+                complete: true,
+              },
+              future: [],
+              createdDate: todo.createdDate,
+              updatedDate: todo.updatedDate,
+            };
+          } else {
+            return todo;
+          }
+        }),
+        activityHistory: [
+          ...state.activityHistory,
+
+          {
+            activityId,
+            todoId: action.payload,
+            activity: "Completed",
+            dateTime: new Date().toLocaleString("en-US", {
+              month: "long",
+              year: "numeric",
+              day: "2-digit",
+              hour12: true,
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+          },
+        ],
+      };
+    }
+
+    case UNDO_COMPLETE_TODO: {
+      activityId = uuid();
+
+      return {
+        todoList: state.todoList.map((todo) => {
+          if (todo.id === action.payload) {
+            return {
+              id: todo.id,
+              past: [...todo.past, todo.present],
+              present: {
+                ...todo.present,
+                complete: false,
+              },
+              future: [],
+              createdDate: todo.createdDate,
+              updatedDate: todo.updatedDate,
+            };
+          } else {
+            return todo;
+          }
+        }),
+        activityHistory: [
+          ...state.activityHistory,
+
+          {
+            activityId,
+            todoId: action.payload,
+            activity: "Undo Completed",
+            dateTime: new Date().toLocaleString("en-US", {
+              month: "long",
+              year: "numeric",
+              day: "2-digit",
+              hour12: true,
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+          },
+        ],
+      };
+    }
+
+    case UNDO: {
+      activityId = uuid();
+
+      return {
+        todoList: state.todoList.map((todo) => {
+          if (todo.id === action.payload) {
+            const previous = todo.past[todo.past.length - 1];
+            const newPast = todo.past.slice(0, todo.past.length - 1);
+            return {
+              id: todo.id,
+              past: newPast,
+              present: previous,
+              future: [todo.present, ...todo.future],
+              createdDate: todo.createdDate,
+              updatedDate: todo.updatedDate,
+            };
+          } else {
+            return todo;
+          }
+        }),
+        activityHistory: [
+          ...state.activityHistory,
+
+          {
+            activityId,
+            todoId: action.payload,
+            activity: "Undid",
+            dateTime: new Date().toLocaleString("en-US", {
+              month: "long",
+              year: "numeric",
+              day: "2-digit",
+              hour12: true,
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+          },
+        ],
+      };
+    }
+
+    case REDO: {
+      activityId = uuid();
+
+      return {
+        todoList: state.todoList.map((todo) => {
+          if (todo.id === action.payload) {
+            const next = todo.future[0];
+            const newFuture = todo.future.slice(1);
+            return {
+              id: todo.id,
+              past: [...todo.past, todo.present],
+              present: next,
+              future: newFuture,
+              createdDate: todo.createdDate,
+              updatedDate: todo.updatedDate,
+            };
+          } else {
+            return todo;
+          }
+        }),
+        activityHistory: [
+          ...state.activityHistory,
+
+          {
+            activityId,
+            todoId: action.payload,
+            activity: "Redid",
+            dateTime: new Date().toLocaleString("en-US", {
+              month: "long",
+              year: "numeric",
+              day: "2-digit",
+              hour12: true,
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+          },
+        ],
+      };
+    }
+
+    // const todo = state.todoList.find((each) => each.id === action.payload.id);
+    // return {
+    //   ...state,
+    //   activityHistory: [
+    //     ...state.activityHistory,
+    //     {
+    //       ...todo,
+    //       content: action.payload.content,
+    //       updatedDate: action.payload.updatedDate,
+    //     },
+    //   ],
+    // };
+    case EDIT_TASK: {
+      activityId = uuid();
+
+      return {
+        todoList: state.todoList.map((todo) => {
+          if (todo.id === action.payload.id) {
+            return {
+              ...todo,
+              past: [...todo.past, todo.present],
+              present: {
+                ...todo.present,
+                title: action.payload.title,
+                content: action.payload.content,
+              },
+              future: [],
+              createdDate: todo.createdDate,
+              updatedDate: new Date().toLocaleString("en-US", {
+                month: "long",
+                year: "numeric",
+                day: "2-digit",
+                hour12: true,
+                hour: "2-digit",
+                minute: "2-digit",
+              }),
+            };
+          } else {
+            return todo;
+          }
+        }),
+        activityHistory: [
+          ...state.activityHistory,
+
+          {
+            activityId,
+            todoId: action.payload,
+            activity: "Edited",
+            dateTime: new Date().toLocaleString("en-US", {
+              month: "long",
+              year: "numeric",
+              day: "2-digit",
+              hour12: true,
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
+          },
+        ],
+      };
+    }
 
     default:
       return state;

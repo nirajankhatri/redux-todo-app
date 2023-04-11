@@ -16,15 +16,12 @@ const AddTodoModal = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const todos = useSelector((state) => state.todos);
+  const todo = useSelector((state) => state.todos.todoList).find(
+    (todo) => todo.id == id
+  );
 
   if (id) {
-    console.log('inside create component',id);
-    console.log(todos);
-
     if (!editing) {
-      const todo = todos.find((todo) => todo.id == id);
-      console.log(todo);
       setTodoTitle(todo.present.title);
       setTodoContent(todo.present.content);
       setEditing(true);
@@ -41,13 +38,15 @@ const AddTodoModal = () => {
         dispatch(edit(id, todoTitle, todoContent));
         setTodoTitle("");
         setTodoContent("");
-        navigate("/");
+        
       } else {
         dispatch(addTodo(todoTitle, todoContent));
         setTodoTitle("");
         setTodoContent("");
       }
     }
+    console.log('form submit')
+    navigate("/");
   };
 
   return createPortal(
@@ -62,10 +61,8 @@ const AddTodoModal = () => {
               value={todoTitle}
               onChange={(e) => setTodoTitle(e.target.value)}
               placeholder="blink blink"
-              disabled={!!id}
             />
-          </div>
-          <div>
+
             <textarea
               type="text"
               className="todoInput todoInput-content"

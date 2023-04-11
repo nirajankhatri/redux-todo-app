@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
+import Navbar from "./features/navbar/Navbar";
 import AddTodoModal from "./features/todo/AddTodoModal";
 import Log from "./features/todo/Log";
 import Todo_List from "./features/todo/Todo_List";
@@ -11,12 +12,18 @@ function App() {
   return (
     <BrowserRouter>
       <div className="App">
-        <Routes>
-          <Route path="/" element={<Todo_List setShowModal={setShowModal} />} />
-          <Route path="/todo/add" element={<AddTodoModal />} />
-          <Route path="/todo/edit/:id" element={<AddTodoModal />} />
-          <Route path="/log" element={<Log />} />
-        </Routes>
+        <Navbar />
+        <main>
+          <Routes>
+            <Route
+              path="/"
+              element={<Todo_List setShowModal={setShowModal} />}
+            />
+            <Route path="/todo/add" element={<AddTodoModal />} />
+            <Route path="/todo/edit/:id" element={<AddTodoModal />} />
+            <Route path="/todolog" element={<Log />} />
+          </Routes>
+        </main>
       </div>
     </BrowserRouter>
   );
