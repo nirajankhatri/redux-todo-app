@@ -1,27 +1,44 @@
+.btns {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
 
-.activity-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
+  .btn-clearLog {
+    width: 100px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+
+  svg {
+    color: rgb(66, 66, 66);
+    cursor: pointer;
+  }
+
+  svg:hover {
+    transform: scale(1.25);
+  }
 }
 
-.activity-table th {
+.activity-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  margin-top: 10px;
+}
+
+.activity-col {
+  border: 1px solid #ccc;
+  padding: 10px;
   font-weight: bold;
-  text-align: left;
-  padding: 8px;
-  border: 2px solid black;
+}
+
+.activity-col.activity-col-th {
   background-color: #bccef8;
 }
 
-.activity-table td {
-  padding: 8px;
-  border: 1px solid black;
-}
-
-.activity-table tr:nth-child(even) {
-  background-color: #bccef8a6;
-}
-
-.activity-table tr:hover {
-  background-color: #bccef8;
+@media screen and (max-width: 768px) {
+  .activity-grid {
+    font-size: 0.75rem;
+    overflow-x: scroll;
+  }
 }

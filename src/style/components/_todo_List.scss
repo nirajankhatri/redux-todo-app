@@ -9,14 +9,15 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 40px;
-    // place-items: center;
+    justify-items: center;
     margin: 20px 0;
 
     .taskInfoContainer {
       display: flex;
-      width: 200px;
+      width: 300px;
       flex-direction: column;
       gap: 10px;
+      text-align: center;
     }
 
     .filter {
@@ -44,9 +45,18 @@
   .taskCards {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    place-items: center;
-    gap: 40px;
+    justify-items: center;
+    gap: 10px;
     margin-top: 20px;
+    overflow-y: scroll;
+    height: 390px;
+    padding: 20px 20px;
+    box-shadow: 2px 2px 4px 2px #d7d7d7;
+    border-radius: 5px;
+
+    @media (max-width: 769px) {
+      padding: 10px;
+    }
 
     .taskCard {
       width: 300px;
@@ -73,7 +83,7 @@
 
         .task__title {
           padding: 10px;
-          font-size: 1.125rem;
+          font-size: 2rem;
           letter-spacing: 0.125rem;
           border-radius: 5px;
           border: none;
@@ -86,7 +96,7 @@
         .task__content {
           background-color: transparent;
           padding: 10px;
-          font-size: 1.130rem;
+          font-size: 1.13rem;
           // letter-spacing: 0.125rem;
           border-radius: 5px;
           border: #2e3440 1px solid;
@@ -111,6 +121,7 @@
         justify-content: flex-start;
         gap: 1rem;
         height: 60px;
+        font-size: 0.85rem;
       }
 
       .itemBtns {
@@ -130,7 +141,8 @@
           }
 
           label {
-            min-width: 100px;
+            margin-right: 28px;
+            font-size: 0.85rem;
           }
         }
         .editContainer {

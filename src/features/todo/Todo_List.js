@@ -23,33 +23,37 @@ import { Link, useNavigate } from "react-router-dom";
 const Todo_List = () => {
   const todoArray = useSelector((state) => state.todos.todoList);
   const historyArray = useSelector((state) => state.todos.activityHistory);
-  console.log("history", historyArray);
 
   const [totalTasks, setTotalTasks] = useState(0);
   const [completedTasks, setCompletedTasks] = useState(0);
   const [filter, setFilter] = useState("");
   const [renderedTodoArray, setRenderedTodoArray] = useState(todoArray);
+  const filterOptions = [
+    { label: "ALL", value: "" },
+    { label: "COMPLETE", value: 1 },
+    { label: "INCOMPLETE", value: 0 },
+  ];
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const deleteTodoHandler = (id) => {
-    dispatch(removeTodo(id));
+  const deleteTodoHandler = (id, title) => {
+    dispatch(removeTodo(id, title));
   };
 
-  const todoCheckboxHandler = (e, id) => {
+  const todoCheckboxHandler = (e, id, title) => {
     document.getElementById(id).classList.toggle("complete");
     e.target.checked
-      ? dispatch(completeTodo(id))
-      : dispatch(undoCompleteTodo(id));
+      ? dispatch(completeTodo(id, title))
+      : dispatch(undoCompleteTodo(id, title));
   };
 
-  const redoHandler = (id) => {
-    dispatch(redo(id));
+  const redoHandler = (id, title) => {
+    dispatch(redo(id, title));
   };
 
-  const undoHandler = (id) => {
-    dispatch(undo(id));
+  const undoHandler = (id, title) => {
+    dispatch(undo(id, title));
   };
 
   // const editHandler = (id, task) => {
@@ -125,40 +129,43 @@ const Todo_List = () => {
             id={todo.id}
             className="itemCheck"
             type="checkbox"
-            onChange={(e) => todoCheckboxHandler(e, todo.id)}
+            onChange={(e) => todoCheckboxHandler(e, todo.id, todo.present.title)}
             checked={todo.present.complete ? true : false}
           />
         </div>
         <div className="btnContainer editContainer">
           <button
             className="btn"
-            onClick={() => redoHandler(todo.id)}
+            onClick={() => redoHandler(todo.id, todo.present.title)}
             disabled={todo.future.length < 1}
           >
-            <FontAwesomeIcon icon={faRotateRight} size="2xl" />
+            <FontAwesomeIcon icon={faRotateRight} size="xl" />
           </button>
 
           <button
             className="btn"
-            onClick={() => undoHandler(todo.id)}
+            onClick={() => undoHandler(todo.id, todo.present.title)}
             disabled={todo.past.length < 1}
           >
-            <FontAwesomeIcon icon={faRotateLeft} size="2xl" />
+            <FontAwesomeIcon icon={faRotateLeft} size="xl" />
           </button>
 
           <button
             className="btn"
             onClick={() => navigate(`/todo/edit/${todo.id}`)}
           >
-            <FontAwesomeIcon icon={faPenToSquare} size="2xl" />
+            <FontAwesomeIcon icon={faPenToSquare} size="xl" />
           </button>
 
-          <button className="btn" onClick={() => deleteTodoHandler(todo.id)}>
+          <button
+            className="btn"
+            onClick={() => deleteTodoHandler(todo.id, todo.present.title)}
+          >
             <FontAwesomeIcon
               className="DeleteIcon"
               icon={faTrashAlt}
               cursor="pointer"
-              size="2xl"
+              size="xl"
             />
           </button>
         </div>
@@ -177,19 +184,22 @@ const Todo_List = () => {
             Completed Tasks: <span>{completedTasks}</span>
           </p>
         </div>
-        <button className="showModalBtn" onClick={() => navigate(`/todo/add`)}>
-          Add Todo
-        </button>
+
         <select
           className="filter"
           name="filter"
           onChange={filterHandler}
           value={filter}
         >
-          <option value="">All</option>
-          <option value={1}>Completed</option>
-          <option value={0}>Incomplete</option>
+          {filterOptions.map((option) => (
+            <option key={option.label} value={option.value}>
+              {option.label}
+            </option>
+          ))}
         </select>
+        <button className="showModalBtn" onClick={() => navigate(`/todo/add`)}>
+          Add Todo
+        </button>
       </div>
       <div className="taskCards">{todoList}</div>
     </div>

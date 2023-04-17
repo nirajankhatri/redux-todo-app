@@ -15,8 +15,11 @@ const initialState = {
 };
 
 const todoReducer = (state = initialState, action) => {
+
   let activityId = "";
+  
   switch (action.type) {
+
     case ADD_TODO: {
       let todoId = uuid();
       activityId = uuid();
@@ -50,6 +53,7 @@ const todoReducer = (state = initialState, action) => {
             activityId,
             todoId,
             activity: "Added",
+            title: action.payload.title,
             dateTime: new Date().toLocaleString("en-US", {
               month: "long",
               year: "numeric",
@@ -66,14 +70,17 @@ const todoReducer = (state = initialState, action) => {
     case REMOVE_TODO: {
       activityId = uuid();
       return {
-        todoList: state.todoList.filter((todo) => todo.id !== action.payload),
+        todoList: state.todoList.filter(
+          (todo) => todo.id !== action.payload.id
+        ),
         activityHistory: [
           ...state.activityHistory,
 
           {
             activityId,
-            todoId: action.payload,
+            todoId: action.payload.id,
             activity: "Added",
+            title: action.payload.title,
             dateTime: new Date().toLocaleString("en-US", {
               month: "long",
               year: "numeric",
@@ -92,8 +99,7 @@ const todoReducer = (state = initialState, action) => {
 
       return {
         todoList: state.todoList.map((todo) => {
-          if (todo.id === action.payload) {
-            console.log(action.payload);
+          if (todo.id === action.payload.id) {
             return {
               id: todo.id,
               past: [...todo.past, todo.present],
@@ -114,8 +120,9 @@ const todoReducer = (state = initialState, action) => {
 
           {
             activityId,
-            todoId: action.payload,
+            todoId: action.payload.id,
             activity: "Completed",
+            title: action.payload.title,
             dateTime: new Date().toLocaleString("en-US", {
               month: "long",
               year: "numeric",
@@ -134,7 +141,7 @@ const todoReducer = (state = initialState, action) => {
 
       return {
         todoList: state.todoList.map((todo) => {
-          if (todo.id === action.payload) {
+          if (todo.id === action.payload.id) {
             return {
               id: todo.id,
               past: [...todo.past, todo.present],
@@ -155,8 +162,9 @@ const todoReducer = (state = initialState, action) => {
 
           {
             activityId,
-            todoId: action.payload,
+            todoId: action.payload.id,
             activity: "Undo Completed",
+            title: action.payload.title,
             dateTime: new Date().toLocaleString("en-US", {
               month: "long",
               year: "numeric",
@@ -175,7 +183,7 @@ const todoReducer = (state = initialState, action) => {
 
       return {
         todoList: state.todoList.map((todo) => {
-          if (todo.id === action.payload) {
+          if (todo.id === action.payload.id) {
             const previous = todo.past[todo.past.length - 1];
             const newPast = todo.past.slice(0, todo.past.length - 1);
             return {
@@ -195,8 +203,9 @@ const todoReducer = (state = initialState, action) => {
 
           {
             activityId,
-            todoId: action.payload,
+            todoId: action.payload.id,
             activity: "Undid",
+            title: action.payload.title,
             dateTime: new Date().toLocaleString("en-US", {
               month: "long",
               year: "numeric",
@@ -215,7 +224,7 @@ const todoReducer = (state = initialState, action) => {
 
       return {
         todoList: state.todoList.map((todo) => {
-          if (todo.id === action.payload) {
+          if (todo.id === action.payload.id) {
             const next = todo.future[0];
             const newFuture = todo.future.slice(1);
             return {
@@ -235,8 +244,9 @@ const todoReducer = (state = initialState, action) => {
 
           {
             activityId,
-            todoId: action.payload,
+            todoId: action.payload.id,
             activity: "Redid",
+            title: action.payload.title,
             dateTime: new Date().toLocaleString("en-US", {
               month: "long",
               year: "numeric",
@@ -296,8 +306,9 @@ const todoReducer = (state = initialState, action) => {
 
           {
             activityId,
-            todoId: action.payload,
+            todoId: action.payload.id,
             activity: "Edited",
+            title: action.payload.title,
             dateTime: new Date().toLocaleString("en-US", {
               month: "long",
               year: "numeric",

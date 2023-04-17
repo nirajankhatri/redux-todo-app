@@ -4,13 +4,13 @@
   justify-content: center;
   padding: 30px;
   gap: 2em;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid rgb(136, 135, 135);
   width: 100vw;
   background-color: #bccef8;
 
   .linkContainer {
     a {
-      border: solid 2px #000000;
+      border: solid 1px rgb(136, 135, 135);
       border-radius: 5px;
       padding: 10px 12px;
       text-transform: uppercase;

@@ -7,7 +7,6 @@ import {
   UNDO,
   EDIT_TASK,
 } from "./todoConstants";
-import uuid from "react-uuid";
 
 export const addTodo = (title, content) => {
   return {
@@ -19,38 +18,39 @@ export const addTodo = (title, content) => {
   };
 };
 
-export const removeTodo = (id) => {
+export const removeTodo = (id, title) => {
+  console.log(id, title, "Inside remove");
   return {
     type: REMOVE_TODO,
-    payload: id,
+    payload: { id: id, title: title },
   };
 };
 
-export const completeTodo = (id) => {
+export const completeTodo = (id, title) => {
   return {
     type: COMPLETE_TODO,
-    payload: id,
+    payload: { id: id, title: title },
   };
 };
 
-export const undoCompleteTodo = (id) => {
+export const undoCompleteTodo = (id, title) => {
   return {
     type: UNDO_COMPLETE_TODO,
-    payload: id,
+    payload: { id: id, title: title },
   };
 };
 
-export const redo = (id) => {
+export const redo = (id, title) => {
   return {
     type: REDO,
-    payload: id,
+    payload: { id: id, title: title },
   };
 };
 
-export const undo = (id) => {
+export const undo = (id, title) => {
   return {
     type: UNDO,
-    payload: id,
+    payload: { id: id, title: title },
   };
 };
 
